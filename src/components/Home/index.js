@@ -215,7 +215,8 @@ class Home extends Component {
       }
 
       var signout = <a href="/" className="btn btn-warning" role="button" aria-pressed="true" onClick={this.handleClickDelBotonQuePodriaSerElDeLoginOElDeLogout.bind(this)}>Sign Out</a>
-
+      //var signout = <a href="https://www.mercadolibre.com/jms/mla/lgz/logout?go=https://auth.mercadolibre.com.ar/authorization?redirect_uri=mysite&response_type=code&client_id=CLIENT_ID&platform_id=ml" className="btn btn-warning" role="button" aria-pressed="true" onClick={this.handleClickDelBotonQuePodriaSerElDeLoginOElDeLogout.bind(this)}>Sign Out</a>
+      //Esto de arriba redirecciona y desloguea a Mercado libre.
       fechaDeRegistro = (JSON.stringify(fechaDeRegistro)).substring(1, 11)
 
       if (pais === 'AR'){
