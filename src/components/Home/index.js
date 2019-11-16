@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {parse} from "query-string";
 import Badge from 'react-bootstrap/Badge';
-import cookie  from 'react-cookies';
+import Cookies  from 'universal-cookie';
 
 var ciudad
 var status
@@ -18,6 +18,7 @@ var tipoDeUsuario
 var puntos
 var idDelSitio
 
+var cookie = new Cookies;
 var options = {
   form: {
     "grant_type":"authorization_code",
@@ -35,6 +36,8 @@ var options = {
 var el_auth_code_anterior
 
 function miFuncion(textitoQueDevolvioToken) {
+
+  
   if (this.state.termino) {
     if (this.state.termino == 'si') {
       return null
@@ -43,6 +46,9 @@ function miFuncion(textitoQueDevolvioToken) {
 
   fetch('/pantallaInicio', {
     method: 'POST',
+    body: JSON.stringify({
+      "token": JSON.stringify(cookie.get("cookieQueGuardaElToken"))
+    }),
     headers:{
         'Content-Type': 'application/json',
     }
@@ -138,7 +144,7 @@ class Home extends Component {
         return response.text()
           .then(function (data) {
             console.log(data);
-            cookie.save("cookieQueGuardaElToken", data)
+            cookie.set("cookieQueGuardaElToken", data)
             miFuncion('1')
           })
 
@@ -179,7 +185,7 @@ class Home extends Component {
       puntos = algo.points
       idDelSitio = algo.site_id
 
-      var signout = <a href="https://auth.mercadolibre.com/authorization?client_id=6722315906287226&response_type=code&state=5ca75bd30" class="btn btn-warning" role="button" aria-pressed="true">Sign Out</a>
+      var signout = <a href="https://auth.mercadolibre.com/authorization?client_id=6722315906287226&response_type=code&state=5ca75bd30" className="btn btn-warning" role="button" aria-pressed="true">Sign Out</a>
       
       fechaDeRegistro = (JSON.stringify(fechaDeRegistro)).substring(1, 11)
 
@@ -219,7 +225,7 @@ class Home extends Component {
 
     }else{
 
-      signout = <a href="https://auth.mercadolibre.com/authorization?client_id=6722315906287226&response_type=code&state=5ca75bd30" class="btn btn-warning" role="button" aria-pressed="true">Sign In</a>
+      signout = <a href="https://auth.mercadolibre.com/authorization?client_id=6722315906287226&response_type=code&state=5ca75bd30" className="btn btn-warning" role="button" aria-pressed="true">Sign In</a>
     
     }
 
@@ -227,79 +233,98 @@ class Home extends Component {
       
       <div>
         
-        <table class="tabla">
-          <tr>
-            <th>Datos de la Empresa</th>
-            <th>{signout}</th>
-          </tr>
-          <tr>
-            <td>Nombre de la empresa</td>
-            <td>{nombreDelUsuario}</td>
-          </tr>
-          <tr>
-            <td>Fecha de registro</td>
-            <td>{fechaDeRegistro}</td>
-          </tr>
-          <tr>
-            <td>País</td>
-            <td>{pais}</td>
-          </tr>
-          <tr>
-            <td>Ciudad</td>
-            <td>{ciudad}</td>
-          </tr>
-          <tr>
-            <td>Tipo de usuario</td>
-            <td>{tipoDeUsuario}</td>
-          </tr>
-          <tr>
-            <td>Puntos</td>
-            <td>{puntos}</td>
-          </tr>
-          <tr>
-            <td>ID del sitio</td>
-            <td>{idDelSitio}</td>
-          </tr>
-          <tr>
-            <td>Estado del sitio</td>
-            <td>{status}</td>
-          </tr>
+        <table className="tabla">
+          <tbody>
+              
+            <tr>
+              <th>Datos de la Empresa</th>
+              <th>{signout}</th>
+            </tr>
+            <tr>
+              <td>Nombre de la empresa</td>
+              <td>{nombreDelUsuario}</td>
+            </tr>
+            <tr>
+              <td>Fecha de registro</td>
+              <td>{fechaDeRegistro}</td>
+            </tr>
+            <tr>
+              <td>País</td>
+              <td>{pais}</td>
+            </tr>
+            <tr>
+              <td>Ciudad</td>
+              <td>{ciudad}</td>
+            </tr>
+            <tr>
+              <td>Tipo de usuario</td>
+              <td>{tipoDeUsuario}</td>
+            </tr>
+            <tr>
+              <td>Puntos</td>
+              <td>{puntos}</td>
+            </tr>
+            <tr>
+              <td>ID del sitio</td>
+              <td>{idDelSitio}</td>
+            </tr>
+            <tr>
+              <td>Estado del sitio</td>
+              <td>{status}</td>
+            </tr>
+
+            </tbody>
+
+          </table>
+
+          <table className="tabla">
+
+            <tbody>
+                
+              <tr>
+                <th>Reputación del usuario</th>
+                <th></th>
+              </tr>
+              <tr>
+                <td>Nivel</td>
+                <td>{level_id}</td>
+              </tr>
+              <tr>
+                <td>Estado del vendedor</td>
+                <td>{seller_status}</td>
+              </tr>
+
+          </tbody>
+
         </table>
 
-        <table class="tabla">
-          <tr>
-            <th>Reputación del usuario</th>
-            <th></th>
-          </tr>
-          <tr>
-            <td>Nivel</td>
-            <td>{level_id}</td>
-          </tr>
-          <tr>
-            <td>Estado del vendedor</td>
-            <td>{seller_status}</td>
-          </tr>
-        </table>
+        <table className="tabla">
 
-        <table class="tabla">
-          <tr>
-            <th>Ventas</th>
-            <th></th>
-          </tr>
-            <td>Canceladas</td>
-            <td>{transacciones_canceladas}</td>
-          <tr>
-            <td>Completadas</td>
-            <td>{transacciones_completadas}</td>
-          </tr>
-          <tr>
-            <td>Periodo</td>
-            <td>{transacciones_periodo}</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>{transacciones_total}</td>
-          </tr>
+          <tbody>
+              
+            <tr>
+              <th>Ventas</th>
+              <th></th>
+            </tr>
+            <tr>
+              <td>Canceladas</td>
+              <td>{transacciones_canceladas}</td>
+            </tr>
+            <tr>
+              <td>Completadas</td>
+              <td>{transacciones_completadas}</td>
+            </tr>
+            <tr>
+              <td>Periodo</td>
+              <td>{transacciones_periodo}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>{transacciones_total}</td>
+            </tr>
+
+          </tbody>
+
         </table>
         
     </div>
