@@ -15,7 +15,7 @@ function isEmptyObject(obj){
 }
 
 function paid(speedwagon){ //Reemplaza el "paid" por "finalizado" porque esto es argentina
-    if (speedwagon == "paid"){
+    if (speedwagon === "paid"){
         return "Finalizado"
     } else{
         return "Por finalizar"
